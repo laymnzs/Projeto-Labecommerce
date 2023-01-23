@@ -237,3 +237,6 @@ app.post("/purchases", (req: Request, res: Response) => {
         res.send(error.message);
     }
 });
+
+
+
