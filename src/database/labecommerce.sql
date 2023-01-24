@@ -218,3 +218,38 @@ SELECT * FROM purchases
 INNER JOIN users
 ON purchases.buyer_id=users.id
 WHERE users.id= "002";
+
+
+
+CREATE TABLE purchases_products (
+    purchase_id  TEXT PRIMARY KEY UNIQUE NOT NULL,
+    product_id TEXT UNIQUE NOT NULL,
+    quantity INTEGER UNIQUE NOT NULL
+);
+
+
+SELECT * FROM purchases_products;
+
+
+INSERT INTO purchases_products(purchase_id, product_id, quantity)
+VALUES ("c001", "p001", 5),
+("c002", "p002", 3);
+
+
+SELECT * FROM purchases_products;
+
+
+INSERT INTO purchases_products(purchase_id, product_id, quantity)
+VALUES("c003", "p003", 2);
+
+
+SELECT * FROM purchases_products
+INNER JOIN purchases_products ON purchase_id = purchase_id
+INNER JOIN purchases ON purchases.id = products.id
+INNER JOIN products ON products = purchases.id
+
+
+
+
+
+
