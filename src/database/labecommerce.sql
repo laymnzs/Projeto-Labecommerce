@@ -5,6 +5,9 @@ CREATE TABLE users (
     password TEXT NOT NULL
 );
 
+DELETE FROM users;
+
+
 SELECT * FROM users;
 
 INSERT INTO users(id, email, password)
@@ -19,6 +22,8 @@ CREATE TABLE products (
     price REAL NOT NULL,
     category TEXT NOT NULL
 );
+
+DELETE FROM products;
 
 SELECT * FROM products;
 
@@ -191,7 +196,7 @@ SELECT * FROM products
 WHERE price >="50" AND price <="500" 
 ORDER by price ASC ;
 
-DROP TABLE purchases;
+DELETE FROM purchases;
 
 SELECT * FROM purchases;
 
@@ -203,6 +208,7 @@ CREATE TABLE purchases(
     buyer_id TEXT NOT NULL,
      FOREIGN KEY (buyer_id) REFERENCES users (id)
 );
+DROP TABLE purchase;
 
 INSERT INTO purchases(id, total_price, paid, delivered_at, buyer_id)
 VALUES ("06", 50, 40, "", "001"),
@@ -222,10 +228,12 @@ WHERE users.id= "002";
 
 
 CREATE TABLE purchases_products (
-    purchase_id  TEXT PRIMARY KEY UNIQUE NOT NULL,
-    product_id TEXT UNIQUE NOT NULL,
-    quantity INTEGER UNIQUE NOT NULL
+    purchase_id  TEXT PRIMARY KEY NOT NULL,
+    product_id TEXT NOT NULL,
+    quantity INTEGER NOT NULL
 );
+
+DELETE FROM purchases_products;
 
 
 SELECT * FROM purchases_products;
@@ -233,23 +241,39 @@ SELECT * FROM purchases_products;
 
 INSERT INTO purchases_products(purchase_id, product_id, quantity)
 VALUES ("c001", "p001", 5),
-("c002", "p002", 3);
+("c001", "p001", 3);
 
 
 SELECT * FROM purchases_products;
 
 
 INSERT INTO purchases_products(purchase_id, product_id, quantity)
-VALUES("c003", "p003", 2);
+VALUES
+("p001", "f003", 1),
+("p002", "f003", 2),
+("p003", "f003", 3);
 
 
-SELECT * FROM purchases_products
-INNER JOIN purchases_products ON purchase_id = purchase_id
-INNER JOIN purchases ON purchases.id = products.id
-INNER JOIN products ON products = purchases.id
+SELECT * FROM purchases
+INNER JOIN  purchases_products  
+ON  purchases_products.purchase_id =purchases.id;
 
+SELECT 
+purchases.id AS purchaseId,
+purchases.total_price, 
+purchases.paid,
+purchases.delivered_at, 
+purchases.buyer_id AS buyerId,
+products.id, 
+products.name,
+products.price
+FROM purchases
+LEFT JOIN purchases_products
+ON purchases_products.purchase_id = purchases.id
+INNER JOIN products
+ON  purchases_products.product_id = products.id;
 
-
+DROP * FROM purchases_products;
 
 
 
