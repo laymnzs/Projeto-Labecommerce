@@ -23,38 +23,38 @@ export const products : TProduct[] = [
         id: "1",
         name: "prato",
         price: 30,
-        category: PRODUCT_CATEGORY.plate
+        category: PRODUCT_CATEGORY.cozinha
     },
     {
         id: "2",
         name: "garfo",
         price: 25,
-        category: PRODUCT_CATEGORY.fork
+        category: PRODUCT_CATEGORY.cozinha
     },
     {
         id: "3",
         name: "faca",
         price: 10,
-        category: PRODUCT_CATEGORY.knife
+        category: PRODUCT_CATEGORY.cozinha
     }
 ]
 
 export const purchase : TPurchase[] = [
     {
         userId: "1",
-        productId: "plate",
+        productId: "01",
         quantity: 50,
         totalPrice: 30
     },
     {
         userId: "2",
-        productId: "fork",
+        productId: "02",
         quantity: 6,
         totalPrice: 40
     },
     {
         userId: "3",
-        productId: "knife",
+        productId: "03",
         quantity: 15,
         totalPrice: 30
     }
