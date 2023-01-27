@@ -108,7 +108,7 @@ app.get("/product/search", async (req: Request, res: Response) => {
      }
    });
 
-//Criando novo usuário; Validar o body;
+//Criando novo usuário; Validar o body:
 // NÃO deve ser possível criar mais de uma conta com a mesma id e o mesmo e-mail:
 
 
