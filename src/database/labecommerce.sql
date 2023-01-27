@@ -276,4 +276,3 @@ ON  purchases_products.product_id = products.id;
 DROP * FROM purchases_products;
 
 
-
