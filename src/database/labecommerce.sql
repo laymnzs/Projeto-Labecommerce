@@ -1,84 +1,186 @@
 -- Active: 1674487067520@@127.0.0.1@3306
+
+--criando a tabela USERS e inserindo ID, NAME e PASSWORD:
+
 CREATE TABLE users (
-    id TEXT PRIMARY KEY UNIQUE NOT NULL,
-    email TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
-);
+	id TEXT PRIMARY KEY UNIQUE NOT NULL,
+	email TEXT UNIQUE NOT NULL,
+	password TEXT NOT NULL);
+
+
+--Populando tabela de users
+INSERT INTO users(id, email, password)
+VALUES("a01", "lay@gmail.com", "2207");
+
+INSERT INTO users(id, email, password)
+ VALUES("a02", "lucas@gmail.com", "1607");
+ 
+ INSERT INTO users(id, email, password)
+
+ VALUES("a03", "labenu@gmail.com", "2022");
+
+SELECT * FROM users;
 
 DELETE FROM users;
 
 
-SELECT * FROM users;
 
-INSERT INTO users(id, email, password)
-VALUES("a001", "lay@gmail.com", "2207"),
-("a002", "lucas@gmail.com", "1607"),
-("a003", "labenu@gmail.com", "2022");
 
+
+--criando a tabela PRODUCTS e inserindo ID, NAME, PRICE E CATEGORY:
 
 CREATE TABLE products (
-    id  TEXT PRIMARY KEY UNIQUE NOT NULL,
-    name TEXT NOT NULL,
-    price REAL NOT NULL,
-    category TEXT NOT NULL
-);
+id TEXT PRIMARY KEY UNIQUE NOT NULL,
+	name TEXT  NOT NULL,
+	price REAL NOT NULL,
+    category TEXT NOT NULL);
 
-DELETE FROM products;
+INSERT INTO products(id, name, price, category)
+VALUES("a01", "toalha", 20, "banheiro");
+
+
+INSERT INTO products(id, name, price, category)
+ VALUES("a02", "toalha", 20, "banheiro");
+ 
+ 
+ INSERT INTO products(id, name, price, category)
+ VALUES("a03", "shampoo", 15, "banheiro");
+ 
+ INSERT INTO products(id, name, price, category)
+VALUES("a04", "condicionador", 13, "banheiro");
+
+INSERT INTO products(id, name, price, category)
+VALUES("a05", "pia", 120, "banheiro");
+
 
 SELECT * FROM products;
 
-INSERT INTO products(id, name, price, category)
-
-VALUES("1", "toalha", 20, "banheiro"),
-("2", "escova", 10, "banheiro"),
-("3", "shampoo", 15, "banheiro"),
-("4", "condicionador", 13, "banheiro"),
-("5", "pia", 120, "banheiro");
+DELETE FROM products;
 
 
-SELECT * FROM products 
-WHERE name = "escova";
 
+--editando um item da tabela que fiz repetido
+
+UPDATE products 
+SET name = "escova", price = 25
+WHERE id = "a02";
+
+SELECT * FROM products;
+
+
+--editando valor do item da tabela
+UPDATE products
+SET price = 36
+WHERE id = "a02";
+
+SELECT * FROM products;
+
+
+
+
+--exercicio da tarde - 1) retorna todos os usuários cadastrados:
+SELECT *  from products;
+SELECT *  from users;
+
+
+
+--mocke um termo de busca, por exemplo "monitor"
+--retorna o resultado baseado no termo de busca
+
+SELECT * FROM products
+WHERE name ="toalha";
+
+
+
+
+--inserindo novo ID na tabela:
 INSERT INTO users(id, email, password)
 VALUES("a004", "labecommerce@gmail.com", "2023");
 
+SELECT * FROM users;
+
+
+
+
+--inserindo novo PRODUTO na tabela:
 
 INSERT INTO products(id, name, price, category)
-VALUES("6", "piso", 420, "banheiro");
+VALUES("a06", "piso", 420, "banheiro");
+
+SELECT * FROM products;
+
+
+
+
+
+
+--exercicio 2 -- mocke uma id de products
+-- busca baseada no valor mockado
 
 SELECT * FROM products
-WHERE id = "6";
+WHERE id = "a06";
+
+SELECT * FROM products;
 
 
+
+
+
+--deletando ID da tabela USERS:
 DELETE FROM users
-WHERE id = "004";
+WHERE id = "a03";
 
+SELECT * FROM users;
+
+
+--deletando ID da tabela PRODUCTS:
 
 DELETE FROM products
-WHERE id = "6";
+WHERE id = "a06";
 
+SELECT * FROM products;
+
+
+
+--atualizando email da tabela USERS:
 UPDATE users
-SET email = "oigente@gmail.com" WHERE id = "a003";
+SET email = "teste@gmail.com",
+password="teste123" WHERE id = "a03";
 
+SELECT * FROM users;
+
+
+
+
+
+--atualizando um produto da tabela PRODUCTS:
 
 UPDATE products
-SET name = "sabonete" WHERE id = "5";
+SET price=22 WHERE id = "a05";
 
-DELETE FROM products
-WHERE id = "3";
-
-INSERT INTO products(id, name, price, category)
-VALUES("3", "esponja", 5, "banheiro");
+SELECT * FROM products;
 
 
+
+--exercicio 3--ordenando EMAIL por ordem crescente na tabela USERS:
 SELECT * FROM users
 ORDER BY email ASC;
+
+
+
+
+
+--ordenando PREÇO por ordem crescente na tabela PRODUCTS:
 
 SELECT * FROM products
 ORDER BY price ASC
 LIMIT 20;
 
 
+
+
+
+-- mostrando preço maior ou igual a 13 e menor ou igual a 120:
 SELECT * FROM products
 WHERE price >= "13" AND price <= "120"
 ORDER BY price ASC;
@@ -86,177 +188,217 @@ ORDER BY price ASC;
 
 
 
+/*--deletando produto pelo ID da tabela PRODUCTS:
+
+DELETE FROM products
+WHERE id = "3";
+
+SELECT * FROM products;
 
 
-CREATE TABLE users( -- criar tabela
-    id TEXT PRIMARY KEY UNIQUE NOT NULL,
-    email TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
-);
+
+-- inserindo novo produto na tabela PRODUCTS:
+INSERT INTO products(id, name, price, category)
+VALUES("a06", "esponja", 5, "banheiro");
+
+SELECT * FROM products;
+
+
+
+
+--nova tabela USERS, agora é para ADICIONAR +4 EMAILS:
+CREATE TABLE users(id TEXT PRIMARY KEY UNIQUE NOT NULL, email TEXT UNIQUE NOT NULL, password TEXT NOT NULL);
 
 INSERT INTO users(id, email, password)
-VALUES ("001", "estrela@gmail.com", "estrela1"),
-("002", "sol@gmail.com", "solemar"),
-("003", "nuvenzinha@gmail.com", "nuvem2013"),
-("004", "ceu@gmail.com", "ceuazul1");
+VALUES ("5", "estrela@gmail.com", "estrela1"), ("6", "sol@gmail.com", "solemar"), ("7", "nuvenzinha@gmail.com", "nuvem2013"), ("8", "ceu@gmail.com", "ceuazul1");
 
 SELECT * FROM users;
+
+
 
 --excluir tabela
 DROP TABLE users;
 
---retorna os usuários cadastrados
-SELECT ('users');
 
---mocke um termo de busca (email)
+
+
+--retorna os usuários cadastrados (MAS SÓ RETORNA PK DE USERS)?!
+--SELECT ('users');
+
+--retorna ID, EMAIL e PASSWORD dos usuários cadastrados:
+
 SELECT * FROM users
-WHERE email;
+WHERE id;
 
---mocke uma id
+
+--buscando usuário pela ID:
 SELECT * FROM users
-WHERE id = "a004";
+WHERE id = "2";
 
---delete a linha baseada no valor mockado
+
+
+--delete a linha 3 da tabela USERS:
 DROP TABLE users
 id = 3;
 
 
+--DÚVIDA: 
 
 
-CREATE TABLE products( -- criar tabela de produtos
-    id TEXT PRIMARY KEY UNIQUE NOT NULL,
-    name TEXT NOT NULL,
-    price REAL NOT NULL ,
-    category TEXT NOT NULL
-);
+CREATE TABLE products(id TEXT PRIMARY KEY UNIQUE NOT NULL, name TEXT NOT NULL, price REAL NOT NULL, category TEXT NOT NULL);
 
 --excluir tabela
 DROP TABLE products;
 
+
+-- inserindo novos produtos na tabela PRODUCTS:
 INSERT INTO products(id, name, price, category)
-VALUES ("a001", "livro", 50, "quarto"),
-("a002", "ventilador", 100, "quarto"),
-("a003", "guarda-roupa", 1500, "quarto"),
-("a004", "espelho", 50, "quarto"),
-("a005", "estante", 500, "quarto");
+VALUES ("6", "livro", 50, "banheiro"), ("7", "ventilador", 100, "banheiro"), ("8", "guarda-roupa", 1500, "banheiro"), ("9", "espelho", 50, "banheiro"), ("10", "estante", 500, "banheiro");
 
 SELECT * FROM products;
 
 --retorna os produtos cadastrados
-SELECT ('products');
+--SELECT ('products');
 
---mocke um termo de busca (category)
+
+--retorna todos os produtos cadastrados
 SELECT * FROM products
-WHERE category;
+WHERE id;
 
-
-
---mocke um termo de busca (category)
-SELECT * FROM products
-WHERE category;
-
---mocke um termo de busca, por exemplo "monitor"
---retorna o resultado baseado no termo de busca
-SELECT * FROM products
-WHERE name = "estante";
-
---mocke uma products
-SELECT * FROM products
-WHERE id = "a003";
-
---mocke um novo usuário
---insere o item mockado na tabela users
-INSERT INTO products(id, name, price, category)
-VALUES
-("a006", "cortina", 80, "quarto");
-
---mocke uma id
---delete a linha baseada no valor mockado
-DELETE FROM products
-WHERE id = "a002";
-
---mocke valores para editar um user
---edite a linha baseada nos valores mockados
-UPDATE products 
-SET price = 49
-WHERE id = "a001";
 
 SELECT * FROM products;
 
---retorna o resultado ordenado pela coluna email em ordem crescente
+
+-- buscar por categoria:
+SELECT category FROM products;
+
+
+--busa um item da tabela PRODUCTS por name:
+SELECT * FROM products
+WHERE name = "toalha";
+
+
+--buscar item por ID:
+SELECT * FROM products
+WHERE id = "3";
+
+
+--mocke um novo usuário
+--insere novo id na tabela PRODUCTS:
+INSERT INTO products(id, name, price, category)
+VALUES("11", "blindex", 80, "banheiro");
+
+
+SELECT * FROM products;
+
+
+--delete ID 2 da tabela PRODUCTS:
+DELETE FROM products
+WHERE id = "2";
+
+
+-- atualizando preço do ID 1 da tabela USERS:
+UPDATE products 
+SET price = 49
+WHERE id = "1";
+
+SELECT * FROM products;
+
+
+
+
+--retorna os EMAILS em ordem crescente:
 SELECT * FROM users ORDER by email ASC;
 
---retorna o resultado ordenado pela coluna price em ordem crescente
+SELECT * FROM users;
+
+
+
+--retorna o price em ordem crescente:
 --limite o resultado em 20 iniciando pelo primeiro item
 SELECT * FROM products ORDER by price ASC LIMIT 20;
 
---mocke um intervalo de preços, por exemplo entre 100.00 e 300.00
---retorna os produtos com preços dentro do intervalo mockado em ordem crescente
+SELECT * FROM products;
+
+
+
+
+--retorna os produtos com preços dentro do intervalo mockado em ordem crescente:
 SELECT * FROM products 
 WHERE price >="50" AND price <="500" 
 ORDER by price ASC ;
 
-DELETE FROM purchases;
+
+SELECT * FROM products;*/
+
+
+
+
+
+--criando uma tabela purchases
+CREATE TABLE purchases(
+	id TEXT PRIMARY KEY UNIQUE NOT NULL,
+	total_price REAL UNIQUE NOT NULL, 
+	paid INTEGER NOT NULL,
+	delivered_at TEXT,
+	buyer_id TEXT NOT NULL, 
+	 FOREIGN KEY (buyer_id) REFERENCES users (id));
+
+
+INSERT INTO purchases(id, total_price, paid, delivered_at, buyer_id)
+VALUES ("001", 50, 40, "", "a001"), 
+("002", 120, 120, "", "a002"), 
+("003", 400, 150,  "", "a003"), 
+("004", 30, 30, "", "a001");
+
 
 SELECT * FROM purchases;
 
-CREATE TABLE purchases(
- id TEXT PRIMARY KEY UNIQUE NOT NULL,
-    total_price REAL UNIQUE NOT NULL ,
-    paid INTEGER NOT NULL,
-    delivered_at TEXT,
-    buyer_id TEXT NOT NULL,
-     FOREIGN KEY (buyer_id) REFERENCES users (id)
-);
+
 DROP TABLE purchase;
 
-INSERT INTO purchases(id, total_price, paid, delivered_at, buyer_id)
-VALUES ("06", 50, 40, "", "001"),
-("07", 120, 120, "", "002"),
-("08", 400, 150,  "", "003"),
-("09", 30, 30, "", "001");
 
+DELETE FROM purchases;
+
+
+
+
+
+
+--atualizando data e hora na tabela PURCHASES:
 UPDATE purchases
-SET delivered_at = "DATATIME 18/01/2023"
-WHERE id="06";
+SET delivered_at = DATETIME("now", "localtime")
+WHERE id="001";
 
-SELECT * FROM purchases
-INNER JOIN users
-ON purchases.buyer_id=users.id
-WHERE users.id= "002";
+SELECT * FROM purchases;
 
+
+
+
+SELECT * FROM purchases;
 
 
 CREATE TABLE purchases_products (
-    purchase_id  TEXT PRIMARY KEY NOT NULL,
-    product_id TEXT NOT NULL,
-    quantity INTEGER NOT NULL
+	purchase_id TEXT NOT NULL, 
+	product_id TEXT NOT NULL, 
+	quantity INTEGER NOT NULL,
+	FOREIGN KEY (purchase_id) REFERENCES purchases(id)
+	FOREIGN KEY (product_id) REFERENCES products(id)
+
+
 );
-
-DELETE FROM purchases_products;
-
-
-SELECT * FROM purchases_products;
-
-
-INSERT INTO purchases_products(purchase_id, product_id, quantity)
-VALUES ("c001", "p001", 5),
-("c001", "p001", 3);
-
-
-SELECT * FROM purchases_products;
-
-
 INSERT INTO purchases_products(purchase_id, product_id, quantity)
 VALUES
-("p001", "f003", 1),
-("p002", "f003", 2),
-("p003", "f003", 3);
+("001", "a03", 1),
+("002", "a03", 2),
+("003", "a03", 3);
 
+DROP TABLE purchases_products;
 
 SELECT * FROM purchases
 INNER JOIN  purchases_products  
 ON  purchases_products.purchase_id =purchases.id;
+
 
 SELECT 
 purchases.id AS purchaseId,
@@ -272,8 +414,3 @@ LEFT JOIN purchases_products
 ON purchases_products.purchase_id = purchases.id
 INNER JOIN products
 ON  purchases_products.product_id = products.id;
-
-DROP * FROM purchases_products;
-
-
-

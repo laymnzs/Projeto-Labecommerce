@@ -19,7 +19,5 @@ export type TPurchase = {
 }
 
 export enum PRODUCT_CATEGORY {
-    plate = "prato",
-    fork = "garfo",
-    knife = "faca"
+cozinha = "cozinha"
 }
