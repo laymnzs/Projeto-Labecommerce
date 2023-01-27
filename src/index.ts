@@ -108,6 +108,173 @@ app.post("/users", (req: Request, res: Response) => {
             res.status(400);
             throw new Error("ID indisponível");
         }
+<<<<<<< aprofundando-knex
+=======
+        res.status(200).send( "Produto apagado com sucesso")
+        })
+
+
+        app.delete("/purchases/:id", async (req: Request, res: Response) => {
+
+          try {    
+          const idPurchase = req.params.id
+          const purchase = await db("purchases") .where({id:idPurchase})
+        
+          if(purchase){
+              await db("purchases").del().where({id:idPurchase})
+              res.status(200).send("Pedido cancelado  com sucesso")
+        
+          }else{
+              res.status(400)
+              throw new Error("Pedido não encontrado")
+          }
+        }catch (error: any) {
+          console.log(error)
+          if (res.statusCode === 200) {
+              res.status(500)
+          }
+          res.send(error.message)
+        }
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+        //exercicio3
+        //Editar user por id
+        app.put("/users/:id", (req: Request, res: Response)=>{
+            const id = req.params.id
+            const newId = req.body.id as string | undefined
+            const newEmail = req.body.email as string | undefined
+            const newPassword = req.body.password as string |undefined
+
+            
+    
+            const resultToEdit = users.find((user)=> user.id ===id)
+            if(resultToEdit){
+              
+    resultToEdit.id=newId || resultToEdit.id
+    resultToEdit.email=newEmail || resultToEdit.email
+    resultToEdit.password=newPassword || resultToEdit.password
+
+
+   
+    
+            }
+            res.status(200).send("Atualização realizada com sucesso")
+    
+        })
+
+        app.put("/product/:id", (req: Request, res: Response)=>{
+            const id = req.params.id
+            const newId = req.body.id as string | undefined
+            const newName = req.body.name as string | undefined
+            const newPrice = req.body.price as number 
+            const newCategory = req.body.category as  PRODUCT_CATEGORY | undefined
+            const resultToEdit = products.find((product)=> product.id ===id)
+            if(resultToEdit){
+              
+    resultToEdit.id=newId || resultToEdit.id
+    resultToEdit.name=newName || resultToEdit.name
+    resultToEdit.price = isNaN(newPrice) ?  resultToEdit.price : newPrice
+    resultToEdit.category=newCategory || resultToEdit.category
+
+
+
+   
+    
+            }
+            res.status(200).send("Produto atualizado com sucesso")
+    
+        })
+            
+
+
+        // Configure seu servidor Express para que ele se comunique com seu banco de dados via knex e refatore (ou recrie) os seguintes endpoints:
+
+//users
+        
+app.get("/users", async (req: Request, res: Response) => {
+  try {
+      const result = await db.raw(`
+      SELECT * FROM users;`)
+res.status(200).send({users: result})
+  } catch (error) {
+      console.log(error)
+
+      if (req.statusCode === 200) {
+          res.status(500)
+      }
+
+      if (error instanceof Error) {
+          res.send(error.message)
+      } else {
+          res.send("Erro inesperado")
+      }
+  }
+})
+
+
+//products
+app.get("/products", async (req: Request, res: Response) => {
+  try {
+      const result = await db.raw(`
+      SELECT * FROM products;`)
+res.status(200).send({products: result})
+  } catch (error) {
+      console.log(error)
+
+      if (req.statusCode === 200) {
+          res.status(500)
+      }
+
+      if (error instanceof Error) {
+          res.send(error.message)
+      } else {
+          res.send("Erro inesperado")
+      }
+  }
+})
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> local
 
         const findEmail = users.find((user) => user.email === email);
 
@@ -241,3 +408,25 @@ app.post("/purchases", (req: Request, res: Response) => {
 
 
 
+app.get("/purchases/:id", async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+
+    const [purchase] = await db.select("*").from("purchases").where({ id });
+
+    if (!purchase) {
+      res.status(400);
+      throw new Error("Pedido não encontrado");
+    }
+
+    res.status(200).send({ purchase: purchase });
+  } catch (error: any) {
+    console.log(error);
+
+    if (res.statusCode === 200) {
+      res.status(500);
+    }
+
+    res.send(error.message);
+  }
+});
