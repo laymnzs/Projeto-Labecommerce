@@ -92,10 +92,12 @@ app.get("/product/search", async (req: Request, res: Response) => {
         throw new Error("query params deve possuir pelo menos um caractere");
       }
 
-      const [products]= await db.raw(`
+      /*const [products]= await db.raw(`
       SELECT * FROM products
       WERE LOWER(name) LIKE("%${q}%")
-      `)
+      `)*/
+
+      const [products]= await db("products").where({name:q}) 
        res.status(200).send({product: products});
      } catch (error: any) {
        console.log(error);
@@ -115,12 +117,18 @@ app.get("/product/search", async (req: Request, res: Response) => {
 // Refatorando o codigo com async
 app.post("/users", async(req: Request, res: Response)=>{
     try{
-        const {id, email, password}= req.body
+        const {id, name, email, password}= req.body
         if(typeof id !== "string"){
             res.status(400)
             throw new Error("'id' inválido, deve ser uma string");
             
         }
+
+        if(typeof name !== "string"){
+          res.status(400)
+          throw new Error("'name' inválido, deve ser uma string");
+        }
+
         if(typeof email !== "string"){
             res.status(400)
             throw new Error("'email' inválido, deve ser uma string");
@@ -137,8 +145,8 @@ app.post("/users", async(req: Request, res: Response)=>{
             
         }
         await db.raw(`
-        INSERT INTO users(id, email, password)
-        VALUES("${id}", "${email}", ${password});`)
+        INSERT INTO users(id, name, email, password)
+        VALUES("${id}","${name}", "${email}", "${password}");`)
         res.status(200).send(`usuário cadastrada com sucesso`)
     }catch (error) {
         console.log(error)
@@ -159,6 +167,7 @@ app.post("/users", async(req: Request, res: Response)=>{
   app.post("/users", (req: Request, res: Response) => {
     try {
       const id = req.body.id;
+      const name = req.body.name;
       const email = req.body.email;
       const password = req.body.password;
   
@@ -167,6 +176,13 @@ app.post("/users", async(req: Request, res: Response)=>{
       if (findId) {
         res.status(400);
         throw new Error("ID indisponivel");
+      }
+
+      const findName = users.find((user) => user.name === name);
+  
+      if (findName) {
+        res.status(400);
+        throw new Error("Name indisponivel");
       }
   
       const findEmail = users.find((user) => user.email === email);
@@ -178,12 +194,13 @@ app.post("/users", async(req: Request, res: Response)=>{
   
       const newUser: TUser = {
         id,
+        name,
         email,
         password,
       };
   
       users.push(newUser);
-      res.status(201).send("Usuario criado com sucesso 😎");
+      res.status(201).send("Usuario criado com sucesso");
     } catch (error: any) {
       console.log(error);
       if (res.statusCode === 200) {
@@ -242,16 +259,16 @@ app.post("/products", async(req: Request, res: Response) => {
 // a quantidade e o total da compra devem estar com o cálculo correto
 app.post("/purchases", async (req: Request, res: Response) => {
   try {
-    const { id, total_price, paid, delivered_at, buyer_id } = req.body;
+    const { id, total_price, paid, created_at, buyer_id } = req.body;
 
     if (typeof id != "string") {
       res.status(400);
       throw new Error("'id' invalido, deve ser uma string");
     }
 
-    if (typeof delivered_at != "string") {
+    if (typeof created_at != "string") {
       res.status(400);
-      throw new Error("'delivered_at' invalido, deve ser uma string");
+      throw new Error("'created_at' invalido, deve ser uma string");
     }
 
     if (typeof buyer_id != "string") {
@@ -272,7 +289,7 @@ app.post("/purchases", async (req: Request, res: Response) => {
     if (
       id.length < 1 ||
       paid.length < 1 ||
-      delivered_at.length < 1 ||
+      created_at.length < 1 ||
       buyer_id.length < 1
     ) {
       res.status(400);
@@ -280,10 +297,10 @@ app.post("/purchases", async (req: Request, res: Response) => {
     }
 
     await db.raw(`
-      INSERT INTO purchases (id, total_price, paid, delivered_at, buyer_id)
-      VALUES ("${id}", "${total_price}", "${paid}", "${delivered_at}", "${buyer_id}")
+      INSERT INTO purchases (id, total_price, paid, created_at, buyer_id)
+      VALUES ("${id}", "${total_price}", "${paid}", "${created_at}", "${buyer_id}")
     `);
-
+//
     res.status(200).send(`Compra cadastrada com sucesso`);
   } catch (error: any) {
     console.log(error);
@@ -486,7 +503,33 @@ res.status(200).send({products: result})
 })
 
   
+app.get("/purchases/:id", async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const [result] = await db("purchases").where({ id: id });
 
+    if (!result) {
+      res.status(404);
+      throw new Error("Compra efetuada com sucesso");
+    }
+
+    // const [user] = await db("users").where({ id: result.buyer_id });
+    // result["name"] = user.name;
+    // result["email"] = user.email;
+
+    // res.status(200).send(result);
+  } catch (error: any) {
+    console.log(error);
+    if (res.statusCode === 200) {
+      res.status(500);
+    }
+    if (error instanceof Error) {
+      res.send(error.message);
+    } else {
+      res.send("Erro inesperado");
+    }
+  }
+});
 
 
 

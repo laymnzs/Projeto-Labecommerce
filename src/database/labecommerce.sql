@@ -1,23 +1,25 @@
--- Active: 1674487067520@@127.0.0.1@3306
+-- Active: 1675215758728@@127.0.0.1@3306
 
 --criando a tabela USERS e inserindo ID, NAME e PASSWORD:
 
 CREATE TABLE users (
 	id TEXT PRIMARY KEY UNIQUE NOT NULL,
+	name TEXT NOT NULL,
 	email TEXT UNIQUE NOT NULL,
-	password TEXT NOT NULL);
+	password TEXT NOT NULL,
+	created_at TEXT DEFAULT (DATETIME('now')) NOT NULL);
 
 
 --Populando tabela de users
-INSERT INTO users(id, email, password)
-VALUES("a01", "lay@gmail.com", "2207");
+INSERT INTO users(id, name, email, password)
+VALUES("a01", "Layane", "lay@gmail.com", "2207");
 
-INSERT INTO users(id, email, password)
- VALUES("a02", "lucas@gmail.com", "1607");
+INSERT INTO users(id, name, email, password)
+ VALUES("a02", "Lucas", "lucas@gmail.com", "1607");
  
- INSERT INTO users(id, email, password)
+ INSERT INTO users(id, name, email, password)
 
- VALUES("a03", "labenu@gmail.com", "2022");
+ VALUES("a03", "Labenu", "labenu@gmail.com", "2022");
 
 SELECT * FROM users;
 
@@ -36,21 +38,21 @@ id TEXT PRIMARY KEY UNIQUE NOT NULL,
     category TEXT NOT NULL);
 
 INSERT INTO products(id, name, price, category)
-VALUES("a01", "toalha", 20, "banheiro");
+VALUES("a01", "fogao", 20, "cozinha");
 
 
 INSERT INTO products(id, name, price, category)
- VALUES("a02", "toalha", 20, "banheiro");
+ VALUES("a02", "geladeira", 20, "cozinha");
  
  
  INSERT INTO products(id, name, price, category)
- VALUES("a03", "shampoo", 15, "banheiro");
+ VALUES("a03", "armario", 15, "cozinha");
  
  INSERT INTO products(id, name, price, category)
-VALUES("a04", "condicionador", 13, "banheiro");
+VALUES("a04", "liquidificador", 13, "cozinha");
 
 INSERT INTO products(id, name, price, category)
-VALUES("a05", "pia", 120, "banheiro");
+VALUES("a05", "pia", 120, "cozinha");
 
 
 SELECT * FROM products;
@@ -94,8 +96,8 @@ WHERE name ="toalha";
 
 
 --inserindo novo ID na tabela:
-INSERT INTO users(id, email, password)
-VALUES("a004", "labecommerce@gmail.com", "2023");
+INSERT INTO users(id, name, email, password)
+VALUES("a004", "Labecommerce", "labecommerce@gmail.com", "2023");
 
 SELECT * FROM users;
 
@@ -105,7 +107,7 @@ SELECT * FROM users;
 --inserindo novo PRODUTO na tabela:
 
 INSERT INTO products(id, name, price, category)
-VALUES("a06", "piso", 420, "banheiro");
+VALUES("a06", "piso", 420, "cozinha");
 
 SELECT * FROM products;
 
@@ -340,22 +342,22 @@ CREATE TABLE purchases(
 	id TEXT PRIMARY KEY UNIQUE NOT NULL,
 	total_price REAL UNIQUE NOT NULL, 
 	paid INTEGER NOT NULL,
-	delivered_at TEXT,
+	created_at TEXT DEFAULT  (DATETIME('now')) NOT NULL,
 	buyer_id TEXT NOT NULL, 
 	 FOREIGN KEY (buyer_id) REFERENCES users (id));
 
 
-INSERT INTO purchases(id, total_price, paid, delivered_at, buyer_id)
-VALUES ("001", 50, 40, "", "a001"), 
-("002", 120, 120, "", "a002"), 
-("003", 400, 150,  "", "a003"), 
-("004", 30, 30, "", "a001");
+INSERT INTO purchases(id, total_price, paid, buyer_id)
+VALUES ("001", 50, 0, "a001"), 
+("002", 120, 0, "a002"), 
+("003", 400, 0, "a003"), 
+("004", 30, 0, "a001");
 
 
 SELECT * FROM purchases;
 
 
-DROP TABLE purchase;
+DROP TABLE purchases;
 
 
 DELETE FROM purchases;
@@ -367,7 +369,7 @@ DELETE FROM purchases;
 
 --atualizando data e hora na tabela PURCHASES:
 UPDATE purchases
-SET delivered_at = DATETIME("now", "localtime")
+SET created_at = DATETIME("now", "localtime")
 WHERE id="001";
 
 SELECT * FROM purchases;
@@ -393,6 +395,10 @@ VALUES
 ("002", "a03", 2),
 ("003", "a03", 3);
 
+
+SELECT * FROM purchases_products;
+
+
 DROP TABLE purchases_products;
 
 SELECT * FROM purchases
@@ -404,7 +410,7 @@ SELECT
 purchases.id AS purchaseId,
 purchases.total_price, 
 purchases.paid,
-purchases.delivered_at, 
+purchases.created_at, 
 purchases.buyer_id AS buyerId,
 products.id, 
 products.name,

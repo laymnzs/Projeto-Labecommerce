@@ -1,5 +1,6 @@
 export type TUser = {
     id: string
+    name: string
     email: string
     password: string
 }
@@ -19,5 +20,6 @@ export type TPurchase = {
 }
 
 export enum PRODUCT_CATEGORY {
-cozinha = "cozinha"
+cozinha = "cozinha",
+banheiro = "banheiro"
 }
